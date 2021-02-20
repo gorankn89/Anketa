@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.8/firebase-app.js"></script>
+
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.8/firebase-analytics.js"></script>
+
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.8/firebase-database.js"></script>
+
+
+    <script>
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        var firebaseConfig = {
+            apiKey: "AIzaSyDE58pJCAGnCORhPeYYJxy3ehr5Umm2Xjk",
+            authDomain: "anketa-eb1d3.firebaseapp.com",
+            projectId: "anketa-eb1d3",
+            storageBucket: "anketa-eb1d3.appspot.com",
+            messagingSenderId: "922184118552",
+            appId: "1:922184118552:web:b2dd37bb27e0357edf6e6d",
+            measurementId: "G-6L7FW5EVW4"
+        };
+
+        function writeData() {
+            firebase.database().ref("Korisnik1").push({
+                ime: document.getElementById("poljeIme").value,
+                pitanje1: document.getElementById("poljeGodine").value,
+                pitanje2: document.getElementById("pitanje1").value
+
+            });
+
+            readData();
+
+        }
+
+        function readData() {
+            firebase.database().ref('/').once('value', function(snapshot) {
+                snapshot.forEach(function(childSnapshot) {
+                    var childKey = childSnapshot.key;
+                    var childData = childSnapshot.val();
+                    console.log(childKey);
+                    console.log(childData);
+                    console.log(Object.keys(childData))
+
+
+
+                    document.getElementById("data").innerHTML = childData['ime'] + ", " + childData['godine'];
+                })
+
+            })
+        }
+
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+
+
+        // Initialize Firebase
+    </script>
+
+
+
+    <script src="script.js"></script>
+    <script>
+        readData();
+    </script>
+
+    <h1>Anketa demo bez ulepsavanja</h1>
+    <br><label for="name">Unesite Ime</label><br>
+    <input type="text" placeholder="ime" name="name" id="poljeIme">
+    <br><label for="quantity">Uneti broj od 1 do 5 (1 za najmanje 5 za najvise):<br>Koliko znas kako se zovu tvoje kolege na poslu?</label><br>
+    <input type="number" placeholder="1-5" id="poljeGodine" name="quantity" min="1" max="5"><br>
+    <label></label>
+    <br><label for="quantity1">Koliko znas dobro kako se zove tvojih pacijenata na poslu?</label><br>
+    <input type="number" placeholder="1-5" id="pitanje1" name="quantity1" min="1" max="5"><br>
+
+    <button onclick="writeData()">Popuni</button>
+
+    <p id="data"></p>
+
+
+</body>
+
+</html>
