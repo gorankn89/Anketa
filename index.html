@@ -6,9 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <img src="paper.jpg" alt="Pozadina" id="pozadina">
 
 
     <script src="https://www.gstatic.com/firebasejs/8.2.8/firebase-app.js"></script>
@@ -33,28 +35,11 @@
             measurementId: "G-6L7FW5EVW4"
         };
 
-        function writeData() {
-            firebase.database().ref("Korisnik1").push({
-                ime: document.getElementById("poljeIme").value,
-                pitanje1: document.getElementById("poljeGodine").value,
-                pitanje2: document.getElementById("pitanje1").value
-
-            });
-
-            readData();
-
-        }
-
         function readData() {
             firebase.database().ref('/').once('value', function(snapshot) {
                 snapshot.forEach(function(childSnapshot) {
                     var childKey = childSnapshot.key;
                     var childData = childSnapshot.val();
-                    console.log(childKey);
-                    console.log(childData);
-                    console.log(Object.keys(childData))
-
-
 
                     document.getElementById("data").innerHTML = childData['ime'] + ", " + childData['godine'];
                 })
@@ -62,32 +47,372 @@
             })
         }
 
+
+        function writeData() {
+
+            let odgovori = {}
+            for (let i = 1; i < 74; i++) {
+                try {
+                    if (i <= 9) {
+                        odgovori[`odgovor0${i}`] = document.getElementById(`izbor${i}`).value
+                    } else {
+                        odgovori[`odgovor${i}`] = document.getElementById(`izbor${i}`).value
+                    }
+                } catch (error) {
+
+                }
+
+            }
+            console.log(odgovori)
+            firebase.database().ref("Korisnik1").push({
+                odgovoriSu: odgovori
+            });
+            clearField();
+
+            alert('Hvala, Uspesno poslani odgovori');
+
+        }
+
+
+
+
+
+
         firebase.initializeApp(firebaseConfig);
         firebase.analytics();
+
+        function testna() {
+            console.log("test")
+        }
 
 
         // Initialize Firebase
     </script>
 
-
-
-    <script src="script.js"></script>
     <script>
-        readData();
     </script>
 
-    <h1>Anketa demo bez ulepsavanja</h1>
-    <br><label for="name">Unesite Ime</label><br>
-    <input type="text" placeholder="ime" name="name" id="poljeIme">
-    <br><label for="quantity">Uneti broj od 1 do 5 (1 za najmanje 5 za najvise):<br>Koliko znas kako se zovu tvoje kolege na poslu?</label><br>
-    <input type="number" placeholder="1-5" id="poljeGodine" name="quantity" min="1" max="5"><br>
-    <label></label>
-    <br><label for="quantity1">Koliko znas dobro kako se zove tvojih pacijenata na poslu?</label><br>
-    <input type="number" placeholder="1-5" id="pitanje1" name="quantity1" min="1" max="5"><br>
 
-    <button onclick="writeData()">Popuni</button>
+    <main>
 
-    <p id="data"></p>
+        <h1>Statovi lokalnog stanovništva o razvoju ekoturizma i zaštite prirode u Parku prirode Tikvara</h1>
+        <br>
+        <br><label for="izbor1"><naslov>I Socio-demografkse karakteristike ispitanika:</naslov><br> Pol:</label><br>
+        <select name="izbor1" id="izbor1">
+    <option value="muški">Muški</option>
+    <option value="ženski">Ženski</option>
+    </select>
+
+        <br><label for="izbor2">Starost:</label><br>
+        <select name="izbor2" id="izbor2">
+    <option value="<19"> >19 </option>
+    <option value="20-29">20-29</option>
+    <option value="30-39">30-39</option>
+    <option value="40-49">40-49</option>
+    <option value="50-59">50-59</option>
+    <option value=">60"><60</option>
+    </select>
+
+        <br><label for="izbor3">Stepen obrazovanja:</label><br>
+        <select name="izbor3" id="izbor3">
+    <option value="Osnovno obrazovanje"> Osnovno obrazovanje </option>
+    <option value="Viši stpen obrazovanja (Srednja škola)">Viši stpen obrazovanja (Srednja škola)</option>
+    <option value="Visoko obrazovanje (Fakultet)">Visoko obrazovanje (Fakultet)</option>
+    <option value="Doktor nauka">Dokotor nauka</option>
+    <option value="Ostalo">Ostalo</option>
+    </select>
+
+        <br><label for="izbor4">Br članova domaćinstva:</label><br>
+        <select name="izbor4" id="izbor4">
+    <option value="Više od tri"> Manje od 3 </option>
+    <option value="od 3 do 5">Od 3 do 5</option>
+    <option value="više od 5">Više od 5</option>
+    </select>
+
+        <br><label for="izbor5">Mesečni prihodi:</label><br>
+        <select name="izbor5" id="izbor5">
+    <option value="Više od tri"> Manje od 30 000 </option>
+    <option value="od 3 do 5">Od 30 000 do 50 000</option>
+    <option value="više od 5">Više od 50 000</option>
+    </select>
+
+        <br><label for="izbor6">Zaposlenje:</label><br>
+        <select name="izbor6" id="izbor6">
+    <option value="državna služba"> državna služba </option>
+    <option value="sopstvena firma">sopstvena firma</option>
+    <option value="privatni sektor">privatni sektor</option>
+    <option value="student">student</option>
+    <option value="nezaposlen">nezaposlen</option>
+    <option value="penzioner">penzioner</option>
+    </select>
+
+        <br><label for="izbor7">Koliko dugo živite ovde:</label><br>
+        <select name="izbor7" id="izbor7">
+    <option value="manje od 9 godina">manje od devet godina</option>
+    <option value="od 10 do 19">od 10 do 19</option>
+    <option value="od 20 do 29"> od 20 do 29</option>
+    <option value="od 30 do 39">od 30 do 39</option>
+    <option value="od 40 do 49">od 40 do 49</option>
+    <option value="više od 50">više od 50</option>
+    </select><br>
+
+        <p>
+            <naslov>II Stav lokalne zajednice o razvoju održivog turizma</naslov>
+        </p>
+
+
+        <label for="izbor8">Vaša životna sredina treba da bude zaštićena sada i u budućnosti</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor8" id="izbor8" required><br>
+
+        <label for="izbor9">Priroda i njeno bogatstvo treba biti procenjeno i zaštićeno</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor9" id="izbor9" required><br>
+
+        <label for="izbor10">Razvoj turizma treba da ojača napore u zaštiti prirode</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor10" id="izbor10" required><br>
+
+        <label for="izbor11">Turizam mora štititi životnu sredinu lokalne zajednice</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor11" id="izbor11" required><br>
+
+        <label for="izbor12"></label>Turizam treba razvijati u saglasnosti sa prirodnim i kulturnim okruženjem datog područja<br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor12" id="izbor12" required><br>
+
+        <label for="izbor13">Ispravan turizam štiti divlje vrste i njihova staništa</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor13" id="izbor13" required><br>
+
+        <label for="izbor14">Razvoj turizma mora promovisati ekološko etično ponašanje (zaštita i održivo korišćenje prirode) svih uključenih strana</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor14" id="izbor14" required><br>
+
+        <label for="izbor15">Neophodni su regulatorni standardi za smanjenje negativnog uticaja turizma</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor15" id="izbor15" required><br>
+
+        <label for="izbor16">Turizam mora unaprediti životnu sredinu za buduće generacije</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor16" id="izbor16" required><br>
+
+        <p>
+            <naslov>III Stav lokalne zajednice o socijalnom trošku razvoja održivog turizma</naslov>
+        </p>
+
+        <label for="izbor17">Turisti u mojoj zajednici narušavaju kvalitet mog života</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor17" id="izbor17" required><br>
+
+        <label for="izbor18">Narušen mi je kvalitet života zbog turizma</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor18" id="izbor18" required><br>
+
+        <label for="izbor19">Turizam me često iritira</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor19" id="izbor19" required><br>
+
+        <label for="izbor20">Turisti iscrpljuju resurse pogodne za rekreaciju</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor20" id="izbor20" required><br>
+
+        <label for="izbor21">Stvara se gužva zbog razvoja turizma</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor21" id="izbor21" required><br>
+
+        <label for="izbor22">Ne osećam se dobrodošlo u lokalnim turističkim poslovima</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor22" id="izbor22" required><br>
+
+        <label for="izbor23">Turizam se isuvuše brzo razvija</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor23" id="izbor23" required><br>
+
+        <label for="izbor24">Moje društvene interakcije su narušene zbog turizma</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor24" id="izbor24" required><br>
+
+        <p>
+            <naslov>IV Stav lokalne zajednice o ekonomskim benefitima razvoja održivog turizma</naslov>
+        </p>
+
+        <label for="izbor25">Sviđa mi se razvoj turizma, jer donosi prihode mojoj lokalnoj zajednici</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor25" id="izbor25" required><br>
+
+        <label for="izbor26">Verujem da turizam značajno doprinosi ekonomski</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor26" id="izbor26" required><br>
+
+        <label for="izbor27">Turizam ostvaruje značajne poreske prihode za lokalni budžet</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor27" id="izbor27" required><br>
+
+        <label for="izbor28">Verujem da je turizam dobar za našu lokalnu ekonomiju</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor28" id="izbor28" required><br>
+
+        <label for="izbor29">Turizam stvara novo tržište za naše lokalne proizvode</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor29" id="izbor29" required><br>
+
+        <label for="izbor30">Turizam čini lokalnu ekonomiju raznovrsnijom</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor30" id="izbor30" required><br>
+
+        <label for="izbor31">Turizam doprinosi i drugim granama industrije u zajednici</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor31" id="izbor31" required><br>
+
+        <p>
+            <naslov>V Stav lokalne zajednice o učešću same zajednice u razvoju održivog turizma</naslov>
+        </p>
+
+        <label for="izbor32">U donošenju odluka o turizmu treba da učestvuju svi podjednako</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor32" id="izbor32" required><br>
+
+        <label for="izbor33">Učešće svih u odlukama je neophodno za uspešan razvoj turizma</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor33" id="izbor33" required><br>
+
+        <label for="izbor34">Nekada je u redu isključiti stanovništvo iz turističkog razvoja</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor34" id="izbor34" required><br>
+
+        <label for="izbor35">Stanovništvo treba imati priliku da učestvuje u razvoju i menadžmentu</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor35" id="izbor35" required><br>
+
+        <p>
+            <naslov>VI Stav lokalne zajednice o dugoročnom planiranju turističkog razvoja</naslov>
+        </p>
+
+        <label for="izbor36">Turistička industrija mora planirati budućnost</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor36" id="izbor36" required><br>
+
+        <label for="izbor37">Uspešan menadžment u turizmu zahteva i naprednu strategiju planiranja određenih akcija</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor37" id="izbor37" required><br>
+
+        <label for="izbor38">Pri planiranju turizma moramo imati dugoročan pristup</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor38" id="izbor38" required><br>
+
+        <label for="izbor39">Stanovništvo mora biti ohrabreno da zauzima liderske pozicije u planiranju</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor39" id="izbor39" required><br>
+
+        <label for="izbor40">Verujem da je neophodno dobro koordinisano planiranje</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor40" id="izbor40" required><br>
+
+        <label for="izbor41">Planovi razvoja turizma se moraju neprekidno unapređivati</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor41" id="izbor41" required><br>
+
+        <p>
+            <naslov>VII Stav lokalne zajednice o zadovoljstvu posetilaca</naslov>
+        </p>
+
+        <label for="izbor42">Turistička udruženja imaju obavezu da zadovolje potrebe posetilaca</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor42" id="izbor42" required><br>
+
+        <label for="izbor43">Atraktivnost lokalne zajednice je centralni element ekološke privlačnosti za posetioce</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor43" id="izbor43" required><br>
+
+        <label for="izbor44">Turistička udruženja moraju pratiti da li su posetiloci zadovoljni</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor44" id="izbor44" required><br>
+
+        <label for="izbor45">Turizam mora obezbediti kvalitativne programe, posete i aranžmane zarad budućih posetilaca</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor45" id="izbor45" required><br>
+
+        <p>
+            <naslov>VIII Stav lokalne zajednice o Ekonomiji orijentisanoj na lokalnu zajednicu</naslov>
+        </p>
+
+        <label for="izbor46">Zahtevati da bar polovina turističkih proizvoda/usluga potiče iz lokalne zajednice</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor46" id="izbor46" required><br>
+
+        <label for="izbor47">Turizam treba da uposli barem jednu polovinu osoblja iz lokalne zajednice</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor47" id="izbor47" required><br>
+
+        <label for="izbor48">Stanovništo treba da ima fer udeo u profitu od turizma</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor48" id="izbor48" required><br>
+
+        <label for="izbor49">Turistička industrija treba da doprinosi u fondove za lokalni razvoj</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor49" id="izbor49" required><br>
+
+        <p>
+            <naslov>IX Stav lokalne zajednice o očuvanju prirodnih resursa</naslov>
+        </p>
+
+        <label for="izbor50">Podsticati organe uprave da ne donose uredbe o broju turista </label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor50" id="izbor50" required><br>
+
+        <label for="izbor51">Pružati pomoć upravnicima rezervata u sprečavanju nelegalnih aktivnosti</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor51" id="izbor51" required><br>
+
+        <label for="izbor52">Ublažiti propisa rezervata u cilju razvoja turizma</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor52" id="izbor52" required><br>
+
+        <label for="izbor53">Edukovati ljude da ne kupuju/ne prodaju proizvode napravljene od ugroženih biljaka </label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor53" id="izbor53" required><br>
+
+        <label for="izbor54">Edukovati ljude da ne kupuju/ne prodaju proizvode napravljene od ugroženih životinja</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor54" id="izbor54" required><br>
+
+        <label for="izbor55">Edukovati ljude o prirodnom nasleđu oblasti</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor55" id="izbor55" required><br>
+
+        <p>
+            <naslov>X Stav lokalne zajednice o očuvanju kulturne tradicije</naslov>
+        </p>
+
+        <label for="izbor56">Predložiti lokalnoj samoupravavi da po potrebi pomeri datume održavanja tradicionalnih manifestacija kako bi privukle više turista</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor56" id="izbor56" required><br>
+
+        <label for="izbor57">Podsticati lokalnu samoupravu da svoje ekonomske aktivnosti zamene turizmom</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor57" id="izbor57" required><br>
+
+        <label for="izbor58">Edukovati ljude o kulturnom nasleđu oblasti</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor58" id="izbor58" required><br>
+
+        <p>
+            <naslov>XI Stav lokalne zajednice o održivom razvoju zajednice</naslov>
+        </p>
+
+        <label for="izbor59">Ekološki edukovati turiste</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor59" id="izbor59" required><br>
+
+        <label for="izbor60">Koristiti jednokratno posuđe radi uštede radne snage i troškova</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor60" id="izbor60" required><br>
+
+        <label for="izbor61">Pružiti dobrodošlice turistima bez obzira na njihov broj</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor61" id="izbor61" required><br>
+
+        <label for="izbor62">Prihvatiti negativni uticaj turizma kako bi se stimulisao lokalni razvoj</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor62" id="izbor62" required><br>
+
+        <label for="izbor63">Podsticati ulaganje u turizam van lokala</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor63" id="izbor63" required><br>
+
+        <label for="izbor64">Učestvovati u prevenciji negativnog uticaja turizma</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor64" id="izbor64" required><br>
+
+        <p>
+            <naslov>XII Stav lokalne zajednice o učestovanje u planiranju ekoturizma i njegovom upravljanju</naslov>
+        </p>
+
+        <label for="izbor65">Sarađivati sa lokalnom samoupravom prilikom planiranja ekoturizma</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor65" id="izbor65" required><br>
+
+        <label for="izbor66">Učestovati u planiranju ekoturizma</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor66" id="izbor66" required><br>
+
+        <label for="izbor67">Povećati zapošljavanje u oblasti ekoturizma</label><br>
+        <input type="number" min="1" max="5" placeholder="1-5" name="izbor67" id="izbor67" required><br>
+
+        <p>
+            <naslov>XIII Stepen informisanja lokalnog stanovništva o Parku prirode Tikvara:</naslov>
+        </p>
+
+
+
+        <br><label for="izbor68">1. Da li znate kojoj vrsti prirodnog dobra pripada Tikvara?</label><br>
+        <input type="text" placeholder="" name="izbor68" id="izbor68" required>
+
+        <br><label for="izbor69">2. Da li Vam je poznata neka biljna vrsta u Parku prirode Tikvara?</label><br>
+        <input type="text" placeholder="" name="izbor69" id="izbor69" required>
+
+        <br><label for="izbor70">3. Da li Vam je poznata neka životinjska vrsta u Parku prirode Tikvara?</label><br>
+        <input type="text" placeholder="" name="izbor70" id="izbor70" required>
+
+        <br><label for="izbor71">4. Da li mislite da postoje problemi vezani za zaštitu prirode u Parku prirode Tikvara?</label><br>
+        <input type="text" placeholder="" name="izbor71" id="izbor71" required>
+
+        <br><label for="izbor72">5. Da li ste uključeni u programe zaštite prirode u Parku prirode Tikvara?</label><br>
+        <input type="text" placeholder="" name="izbor72" id="izbor72" required>
+
+        <br><label for="izbor73">6. Da li bi ste želeli da doprinesete zaštiti prirode u Parku prirode Tikvara kao volonteri?</label><br>
+        <input type="text" placeholder="" name="izbor73" id="izbor73" required><br> <br>
+
+
+        <button type="button" onclick="zastita()">Pošalji podatke</button><br>
+
+        <p id="data"></p>
+    </main>
+    <script type="module" src="script.js"></script>
+    <script src="script.js"></script>
+
 
 
 </body>
