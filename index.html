@@ -55,7 +55,7 @@
                 let stringForParse = document.getElementById(`izbor${i}`).value;
                 let broj = parseInt(stringForParse);
 
-                if (i > 7 && broj > 6) {
+                if (i > 7 && broj > 5) {
                     document.getElementById(`izbor${i}`).value = 5;
                 }
 
@@ -70,6 +70,7 @@
                 }
 
             }
+
             firebase.database().ref("Korisnik1").push({
                 odgovoriSu: odgovori
             });
