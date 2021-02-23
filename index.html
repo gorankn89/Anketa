@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Anketa</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -52,6 +52,13 @@
 
             let odgovori = {}
             for (let i = 1; i < 74; i++) {
+                let stringForParse = document.getElementById(`izbor${i}`).value;
+                let broj = parseInt(stringForParse);
+
+                if (i > 7 && broj > 6) {
+                    document.getElementById(`izbor${i}`).value = 5;
+                }
+
                 try {
                     if (i <= 9) {
                         odgovori[`odgovor0${i}`] = document.getElementById(`izbor${i}`).value
@@ -63,7 +70,6 @@
                 }
 
             }
-            console.log(odgovori)
             firebase.database().ref("Korisnik1").push({
                 odgovoriSu: odgovori
             });
